@@ -1,0 +1,24 @@
+# 비밀 값 — 절대 커밋하지 않습니다
+.env
+.env.*
+!.env.example
+secrets/
+*.key
+*.pem
+
+# 내 자료와 결과물은 각자 것이라 기본으로 빼둡니다
+# (팀과 공유하고 싶으면 아래 세 줄을 지우세요)
+자료/*
+결과물/*
+기록/worklog/*
+
+!자료/.gitkeep
+!결과물/.gitkeep
+!기록/worklog/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code 로컬 설정
+.claude/settings.local.json
