@@ -147,12 +147,27 @@ def main() -> int:
     if not body:
         note = how
         subs = subtitles(a.url)
+        desc = m.get("description", "")
         if subs:
             how = f"자막 (제미나이 못 씀: {note})"
             body = subs
+        elif desc:
+            how = f"제목·설명만 — 영상 내용 아님 (제미나이 못 씀: {note} / 자막 없음)"
+            body = desc
         else:
-            how = f"제목·설명만 (제미나이 못 씀: {note} / 자막 없음)"
-            body = m.get("description", "")
+            missing = []
+            if "키 없음" in note or "미설치" in note:
+                missing.append("제미나이 키 또는 google-genai")
+            if not _has("yt-dlp"):
+                missing.append("yt-dlp")
+            print(json.dumps({
+                "source": "가져온 것 없음",
+                "error": f"영상에서 아무것도 못 가져왔습니다 ({note}).",
+                "missing": missing,
+                "hint": "요약하지 마세요. 준비물을 갖춘 뒤 다시 돌려야 합니다.",
+                "meta": m,
+            }, ensure_ascii=False, indent=2))
+            return 3
 
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
